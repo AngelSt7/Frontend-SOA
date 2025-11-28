@@ -1,0 +1,68 @@
+﻿    <div v-if="meta" class="alert alert-light d-flex justify-content-between align-items-center mb-3">
+        <span>Mostrando <strong>{{ meta.itemsInPage }}</strong> de <strong>{{ meta.totalItems }}</strong> propiedades</span>
+        <span class="text-muted">Página {{ meta.currentPage }} de {{ meta.totalPages }}</span>
+    </div>
+
+    <div class="row g-4">
+        <div v-for="property in properties" :key="property.id" class="col-md-6">
+            <div class="card h-100">
+                <div class="card-img-top bg-secondary d-flex align-items-center justify-content-center" style="height: 250px;">
+                    <img :src="property.mainImage || 'https://images.homify.com/v1461736435/p/photo/image/1478940/mv_chontay_13.jpg'"
+                         :alt="property.name" class="w-100 h-100" style="object-fit: cover;">
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <h5 class="card-title mb-0">{{ property.name }}</h5>
+                        <span class="badge bg-primary">{{ property.propertyType }}</span>
+                    </div>
+                    <p class="text-muted mb-2"><i class="bi bi-geo-alt"></i> {{ property.district }}, {{ property.department }}</p>
+                    <h4 class="text-primary mb-3">{{ property.currency }} {{ formatPrice(property.price) }}</h4>
+                    <div class="d-flex gap-3 mb-3">
+                        <span><i class="bi bi-door-open"></i> {{ property.bedrooms }} dorm.</span>
+                        <span><i class="bi bi-droplet"></i> {{ property.bathrooms }} baños</span>
+                        <span><i class="bi bi-rulers"></i> {{ property.area }} m²</span>
+                    </div>
+                    <div class="d-flex gap-2 mb-3">
+                        <span class="badge bg-secondary">{{ property.propertyCategory }}</span>
+                        <span class="badge bg-info" v-if="property.parkingSpaces"><i class="bi bi-car-front"></i> {{ property.parkingSpaces }} estac.</span>
+                        <span class="badge bg-warning" v-if="property.yearBuilt">{{ property.yearBuilt }}</span>
+                    </div>
+                    <p class="card-text text-muted small mb-3">{{ property.address }}</p>
+                    <a :href="property.fullSlug" class="btn btn-primary w-100">Ver detalles</a>
+                </div>
+                <div class="card-footer text-muted small">
+                    <span v-if="property.availability" class="badge bg-success">Disponible</span>
+                    <span v-else class="badge bg-danger">No disponible</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div v-if="properties.length === 0" class="alert alert-info mt-4">
+        No se encontraron propiedades con los filtros seleccionados.
+    </div>
+
+    <nav v-if="meta && meta.totalPages > 1" class="mt-4" aria-label="Paginación">
+        <ul class="pagination justify-content-center">
+            <li class="page-item" :class="{ disabled: !meta.prevPage }">
+                <a class="page-link" href="#" v-on:click.prevent="changePage(meta.currentPage - 1)">Anterior</a>
+            </li>
+
+            <li v-if="meta.currentPage > 1" class="page-item">
+                <a class="page-link" href="#" v-on:click.prevent="changePage(meta.currentPage - 1)">{{ meta.currentPage - 1 }}</a>
+            </li>
+
+            <li class="page-item active">
+                <span class="page-link">{{ meta.currentPage }}</span>
+            </li>
+
+            <li v-if="meta.currentPage < meta.totalPages" class="page-item">
+                <a class="page-link" href="#" v-on:click.prevent="changePage(meta.currentPage + 1)">{{ meta.currentPage + 1 }}</a>
+            </li>
+
+            <li class="page-item" :class="{ disabled: !meta.nextPage }">
+                <a class="page-link" href="#" v-on:click.prevent="changePage(meta.currentPage + 1)">Siguiente</a>
+            </li>
+        </ul>
+    </nav>
+</div>

@@ -1,0 +1,132 @@
+﻿@page
+@model WebVue.Pages.AlumnoModel
+@{
+}
+<div id="app">
+    <h1>Alumnos</h1>
+    <p>Bienvenido al administrador de alumnos.</p>
+    <p>
+        <input v-model="nombres" />
+        <button @@click="listar" class="btn btn-primary">Buscar</button>
+        <button @@click="nuevo" class="btn btn-secondary">Nuevo</button>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nombres</th>
+                <th>Apellidos</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="item in entidades">
+                <td>{{item.nombres}}</td>
+                <td>{{item.apellidos}}</td>
+                <td>
+                    <button class="btn btn-primary" @@click="editar(item.id)">Editar</button>
+                    <button class="btn btn-danger" @@click="eliminar(item.id)">Eliminar</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="modal" tabindex="-1" role="dialog" id="mdlEditar">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Nombres <input v-model="entidad.nombres" /></p>
+                    <p>Apellidos <input v-model="entidad.apellidos" /></p>
+                    <p>Edad <input v-model="entidad.edad" /></p>
+                    <p>Tipo de Documento 
+                        <select v-model="entidad.tipodocumentoId">
+                            <option v-for="item in tiposdocumento" :value="item.id">
+                                {{item.nombre}}
+                            </option>
+                        </select>
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" v-if="entidad.id==0" @@click="registrar">Registrar</button>
+                    <button type="button" class="btn btn-primary" v-if="entidad.id>0" @@click="actualizar">Actualizar</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.3"></script>
+
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            nombres: "",
+            entidades: [],
+            entidad: [],
+            tiposdocumento: [],
+        },
+        mounted: function (){
+            this.fetchTiposDocumento();
+        },
+        methods: {
+            fetchTiposDocumento: function () {                
+                var url = "https://localhost:7243/api/Categorias/Subcategoria?id=1";
+                this.$http.get(url).then(function (response) {
+                    this.tiposdocumento = response.body;
+                });
+            },
+            listar: function () {
+                var url = "https://localhost:7243/api/Alumnos/Listar?texto="+this.nombres;
+                this.$http.get(url).then(function (response) {
+                    this.entidades = response.body;
+                });
+            },
+            nuevo: function () {
+                $("#mdlEditar").modal("show");
+                this.entidad = {
+                    id: 0,
+                    nombres: "",
+                    apellidos: "",
+                    edad: 20,
+                    tipodocumentoid: 10
+                };
+            },
+            registrar: function () {
+                var url = "https://localhost:7243/api/Alumnos";
+                this.$http.post(url, this.entidad).then(function (response) {
+                    $("#mdlEditar").modal("hide");
+                    this.listar();
+                });
+            },
+            editar: function (id) {
+                var url = "https://localhost:7243/api/Alumnos/"+id;
+                this.$http.get(url).then(function (response) {
+                    this.entidad = response.body;
+                    $("#mdlEditar").modal("show");
+                });
+            },
+            actualizar: function () {
+                var url = "https://localhost:7243/api/Alumnos/"+this.entidad.id;
+                this.$http.put(url, this.entidad).then(function (response) {
+                    $("#mdlEditar").modal("hide");
+                    this.listar();
+                });
+            },
+            eliminar: function (id) {
+                var url = "https://localhost:7243/api/Alumnos/"+id;
+                this.$http.delete(url).then(function (response) {
+                    this.listar();
+                });
+            }
+        }
+    });
+</script>

@@ -1,0 +1,99 @@
+﻿<div class="d-flex flex-wrap gap-4 mb-3">
+    <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="currencyDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            Currency
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="currencyDropdown">
+            <li><a class="dropdown-item" href="#" onclick="setQueryParam('currency', 'PEN')">PEN</a></li>
+            <li><a class="dropdown-item" href="#" onclick="setQueryParam('currency', 'USD')">USD</a></li>
+        </ul>
+    </div>
+    <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="categoryDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            Property Category
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="categoryDropdown">
+            <li><a class="dropdown-item" href="#" onclick="setQueryParam('propertyCategory', 'HOUSE')">HOUSE</a></li>
+            <li><a class="dropdown-item" href="#" onclick="setQueryParam('propertyCategory', 'APARTMENT')">APARTMENT</a></li>
+            <li><a class="dropdown-item disabled" href="#">LAND</a></li>
+            <li><a class="dropdown-item disabled" href="#">COMMERCIAL</a></li>
+            <li><a class="dropdown-item disabled" href="#">OFFICE</a></li>
+            <li><a class="dropdown-item disabled" href="#">WAREHOUSE</a></li>
+        </ul>
+    </div>
+    <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="typeDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            Property Type
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="typeDropdown">
+            <li><a class="dropdown-item" href="#" onclick="setQueryParam('propertyType', 'SALE')">SALE</a></li>
+            <li><a class="dropdown-item" href="#" onclick="setQueryParam('propertyType', 'RENT')">RENT</a></li>
+        </ul>
+    </div>
+
+    <button type="button" class="btn btn-outline-primary" id="pricePopover">Precio</button>
+    <button type="button" class="btn btn-outline-primary" id="bedroomsPopover">Dormitorios</button>
+    <button type="button" class="btn btn-outline-primary" id="bathroomsPopover">Baños</button>
+    <button type="button" class="btn btn-outline-primary" id="areaPopover">Área (m²)</button>
+</div>
+
+<hr />
+
+<h3>Filtros avanzados</h3>
+<div class="row g-3">
+    <div class="col-md-4">
+        <label class="form-label">Min Parking Spaces</label>
+        <input type="number" placeholder="Espacios de parqueo" class="form-control" oninput="setQueryParam('minParkingSpaces', this.value)" />
+    </div>
+    <div class="col-md-4">
+        <label class="form-label">Year Built</label>
+        <input type="number" placeholder="Año de construcción" class="form-control" oninput="setQueryParam('yearBuilt', this.value)" />
+    </div>
+    <div class="col-md-4">
+        <label class="form-label">Availability</label>
+        <select class="form-control" onchange="setQueryParam('availability', this.value)">
+            <option disabled selected>--Seleccionar--</option>
+            <option value="true">Disponible</option>
+            <option value="false">No disponible</option>
+        </select>
+    </div>
+    <div class="col-12">
+        <label class="form-label">Ubicación</label>
+        <div class="position-relative">
+            <input type="text"
+                   class="form-control"
+                   v-model="locationSearch"
+                   @@input ="filterLocations"
+                   @@focus ="showLocationDropdown = true"
+                   placeholder="Buscar departamento, provincia o distrito..." />
+            <div v-if="showLocationDropdown && filteredLocations.length > 0"
+                 class="position-absolute w-100 bg-white border rounded shadow-sm mt-1"
+                 style="max-height: 300px; overflow-y: auto; z-index: 1000;">
+                <div v-for="location in filteredLocations"
+                     :key="location.id"
+                     @@click ="selectLocation(location)"
+                     class="p-2 location-item"
+                     style="cursor: pointer; border-bottom: 1px solid #eee;">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span>{{ location.name }}</span>
+                        <span class="badge" :class="{
+                    'bg-primary': location.type === 'DEPARTMENT',
+                    'bg-info': location.type === 'PROVINCE',
+                    'bg-secondary': location.type === 'DISTRICT'
+                }">
+                            {{ location.type }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <small v-if="selectedLocation" class="text-muted">
+            Seleccionado: {{ selectedLocation.name }}
+            <button @@click ="clearLocation"
+                    class="btn btn-sm btn-link text-danger p-0 ms-2">
+                ✕ Limpiar
+            </button>
+        </small>
+    </div>
+
+</div>

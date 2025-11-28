@@ -1,0 +1,19 @@
+﻿@page
+@model BuscarModel
+@{
+    ViewData["Title"] = "Buscar Propiedades";
+}
+
+<h1>@ViewData["Title"]</h1>
+<p>Encuentra la propiedad ideal...</p>
+
+<div id="app">
+    <partial name="property/_PropertyClientFilters" />
+    <hr />
+    <h3>Resultados</h3>
+    <partial name="property/_PropertyClientResults" />
+</div>
+
+@section Scripts {
+    <script src="~/js/buscar.js"></script>
+}

@@ -1,0 +1,222 @@
+﻿@page "{slug}"
+@model WebVue.Pages.Inmueble.ClasificadoModel
+@{
+    ViewData["Title"] = "Detalle de la Propiedad";
+}
+
+<div id="app">
+    <div v-if="loading" class="text-center py-5">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Cargando...</span>
+        </div>
+    </div>
+
+    <div v-else-if="property">
+        <!-- Encabezado -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <h1>{{ property.name }}</h1>
+                <p class="text-muted">
+                    <i class="bi bi-geo-alt"></i> {{ property.address }}
+                </p>
+                <p class="text-muted">
+                    {{ property.district }}, {{ property.province }}, {{ property.department }}
+                </p>
+            </div>
+        </div>
+
+        <!-- Imagen Principal -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <img src="https://images.homify.com/v1461736435/p/photo/image/1478940/mv_chontay_13.jpg"
+                     :alt="property.name"
+                     class="img-fluid rounded w-100"
+                     style="max-height: 500px; object-fit: cover;">
+            </div>
+        </div>
+
+        <!-- Información Principal -->
+        <div class="row mb-4">
+            <div class="col-md-8">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h3 class="card-title">Descripción</h3>
+                        <p class="card-text">{{ property.description }}</p>
+                        <p class="text-muted" v-if="property.extraInfo">
+                            <strong>Información adicional:</strong> {{ property.extraInfo }}
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Características -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h3 class="card-title">Características</h3>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <p><i class="bi bi-door-open"></i> <strong>Dormitorios:</strong> {{ property.bedrooms }}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <p><i class="bi bi-droplet"></i> <strong>Baños:</strong> {{ property.bathrooms }}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <p><i class="bi bi-rulers"></i> <strong>Área:</strong> {{ property.area }} m²</p>
+                            </div>
+                            <div class="col-md-6" v-if="property.parkingSpaces">
+                                <p><i class="bi bi-car-front"></i> <strong>Estacionamientos:</strong> {{ property.parkingSpaces }}</p>
+                            </div>
+                            <div class="col-md-6" v-if="property.floor">
+                                <p><i class="bi bi-building"></i> <strong>Piso:</strong> {{ property.floor }}</p>
+                            </div>
+                            <div class="col-md-6" v-if="property.yearBuilt">
+                                <p><i class="bi bi-calendar"></i> <strong>Año de construcción:</strong> {{ property.yearBuilt }}</p>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="d-flex flex-wrap gap-2">
+                            <span v-if="property.furnished" class="badge bg-success">
+                                <i class="bi bi-house-check"></i> Amoblado
+                            </span>
+                            <span v-if="property.hasTerrace" class="badge bg-info">
+                                <i class="bi bi-tree"></i> Terraza
+                            </span>
+                            <span v-if="property.hasParking" class="badge bg-primary">
+                                <i class="bi bi-car-front"></i> Estacionamiento
+                            </span>
+                            <span class="badge" :class="property.availability ? 'bg-success' : 'bg-danger'">
+                                {{ property.availability ? 'Disponible' : 'No disponible' }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="col-md-4">
+                <!-- Precio y Contacto -->
+                <div class="card mb-4 sticky-top" style="top: 20px;">
+                    <div class="card-body">
+                        <h2 class="text-primary mb-3">
+                            {{ property.currency }} {{ formatPrice(property.price) }}
+                        </h2>
+                        <div class="d-flex gap-2 mb-3">
+                            <span class="badge bg-secondary">{{ property.propertyCategory }}</span>
+                            <span class="badge bg-primary">{{ property.propertyType }}</span>
+                        </div>
+
+                        <hr>
+
+                        <h5>Contacto</h5>
+                        <p v-if="property.phone">
+                            <i class="bi bi-telephone"></i>
+                            <a :href="'tel:' + property.phone">{{ property.phone }}</a>
+                        </p>
+
+                        <button class="btn btn-primary w-100 mb-2">
+                            <i class="bi bi-whatsapp"></i> Contactar por WhatsApp
+                        </button>
+                        <button class="btn btn-outline-primary w-100">
+                            <i class="bi bi-envelope"></i> Enviar mensaje
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Ubicación -->
+                <div class="card" v-if="property.latitude && property.longitude">
+                    <div class="card-body">
+                        <h5 class="card-title">Ubicación</h5>
+                        <p class="text-muted small">
+                            Lat: {{ property.latitude }}, Lng: {{ property.longitude }}
+                        </p>
+                        <div class="bg-light rounded d-flex align-items-center justify-content-center"
+                             style="height: 200px;">
+                            <span class="text-muted">Mapa aquí</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Información Adicional -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Información de publicación</h5>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p class="text-muted small">
+                                    <strong>Publicado:</strong> {{ formatDate(property.createdAt) }}
+                                </p>
+                            </div>
+                            <div class="col-md-6">
+                                <p class="text-muted small">
+                                    <strong>Actualizado:</strong> {{ formatDate(property.updatedAt) }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div v-else-if="!loading" class="alert alert-warning">
+        No se encontró la propiedad.
+    </div>
+</div>
+
+@section Scripts {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script>
+        const app = new Vue({
+            el: "#app",
+            data: {
+                property: null,
+                loading: true
+            },
+            mounted() {
+                this.fetchProperty();
+            },
+            methods: {
+                fetchProperty() {
+                    // Obtener el ID de la URL (última parte después del último guion)
+                    const url = window.location.pathname;
+                    const parts = url.split('-');
+                    const id = parts[parts.length - 1];
+
+                    if (typeof api !== 'undefined') {
+                        api.getRequest(`/property/${id}`)
+                            .then(res => {
+                                this.property = res.data || null;
+                                this.loading = false;
+                            })
+                            .catch(err => {
+                                console.error("Error fetching property", err);
+                                this.property = null;
+                                this.loading = false;
+                            });
+                    } else {
+                        console.error("El objeto 'api' no está definido.");
+                        this.loading = false;
+                    }
+                },
+                formatPrice(price) {
+                    return new Intl.NumberFormat('es-PE').format(price);
+                },
+                formatDate(dateString) {
+                    const date = new Date(dateString);
+                    return date.toLocaleDateString('es-PE', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                    });
+                }
+            }
+        });
+    </script>
+}
+}
