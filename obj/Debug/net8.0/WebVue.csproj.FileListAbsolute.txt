@@ -63,3 +63,4 @@ C:\Users\Angel\Desktop\WebVue\obj\Debug\net8.0\refint\WebVue.dll
 C:\Users\Angel\Desktop\WebVue\obj\Debug\net8.0\WebVue.pdb
 C:\Users\Angel\Desktop\WebVue\obj\Debug\net8.0\WebVue.genruntimeconfig.cache
 C:\Users\Angel\Desktop\WebVue\obj\Debug\net8.0\ref\WebVue.dll
+C:\Users\Angel\Desktop\WebVue\obj\Debug\net8.0\WebVue.sourcelink.json

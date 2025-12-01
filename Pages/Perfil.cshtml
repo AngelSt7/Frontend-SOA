@@ -1,0 +1,74 @@
+﻿@page
+@model WebApi.Pages.PerfilModel
+@{
+}
+
+<div id="app" class="container mt-5">
+
+    <h2 class="mb-4">Mi Perfil</h2>
+
+    <div v-if="loading">
+        <p>Cargando datos...</p>
+    </div>
+
+    <div v-else>
+        <div class="card p-4 shadow-sm">
+            <p><strong>ID:</strong> {{ user.id }}</p>
+            <p><strong>Nombre:</strong> {{ user.name }}</p>
+            <p><strong>Apellido:</strong> {{ user.lastname }}</p>
+            <p><strong>Email:</strong> {{ user.email }}</p>
+            <p><strong>Teléfono:</strong> {{ user.phone }}</p>
+            <p>
+                <strong>Confirmado:</strong>
+                <span v-if="user.confirmed">✔ Sí</span>
+                <span v-else>✘ No</span>
+            </p>
+        </div>
+        <button class="btn btn-danger mt-3" @@click ="cerrarSesion">Cerrar sesión</button>
+    </div>
+
+</div>
+
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            user: {},
+            loading: true
+        },
+        created() {
+            this.cargarPerfil();
+        },
+        methods: {
+           cargarPerfil() {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+        console.error("No hay token, usuario no autenticado");
+        this.loading = false;
+        return;
+    }
+
+    this.$http.get("http://localhost:4000/api/Auth/Listadelacuenta", {
+        headers: {
+            "Authorization": "Bearer " + token
+        }
+    })
+    .then(response => {
+        this.user = response.body.data;
+        this.loading = false;
+    })
+    .catch(error => {
+        console.error("Error al cargar el perfil:", error);
+        this.loading = false;
+    });
+
+            },
+        cerrarSesion() {
+                localStorage.removeItem("token");
+                window.location.href = "/Auntenticacion";
+            }
+
+        }
+    });
+</script>

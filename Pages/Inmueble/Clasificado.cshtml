@@ -4,7 +4,7 @@
     ViewData["Title"] = "Detalle de la Propiedad";
 }
 
-<div id="app">
+<div id="oneProperty">
     <div v-if="loading" class="text-center py-5">
         <div class="spinner-border text-primary" role="status">
             <span class="visually-hidden">Cargando...</span>
@@ -12,7 +12,7 @@
     </div>
 
     <div v-else-if="property">
-        <!-- Encabezado -->
+
         <div class="row mb-4">
             <div class="col-12">
                 <h1>{{ property.name }}</h1>
@@ -25,7 +25,6 @@
             </div>
         </div>
 
-        <!-- Imagen Principal -->
         <div class="row mb-4">
             <div class="col-12">
                 <img src="https://images.homify.com/v1461736435/p/photo/image/1478940/mv_chontay_13.jpg"
@@ -35,7 +34,6 @@
             </div>
         </div>
 
-        <!-- Información Principal -->
         <div class="row mb-4">
             <div class="col-md-8">
                 <div class="card mb-4">
@@ -48,7 +46,6 @@
                     </div>
                 </div>
 
-                <!-- Características -->
                 <div class="card mb-4">
                     <div class="card-body">
                         <h3 class="card-title">Características</h3>
@@ -93,9 +90,7 @@
                 </div>
             </div>
 
-            <!-- Sidebar -->
             <div class="col-md-4">
-                <!-- Precio y Contacto -->
                 <div class="card mb-4 sticky-top" style="top: 20px;">
                     <div class="card-body">
                         <h2 class="text-primary mb-3">
@@ -123,7 +118,6 @@
                     </div>
                 </div>
 
-                <!-- Ubicación -->
                 <div class="card" v-if="property.latitude && property.longitude">
                     <div class="card-body">
                         <h5 class="card-title">Ubicación</h5>
@@ -139,7 +133,6 @@
             </div>
         </div>
 
-        <!-- Información Adicional -->
         <div class="row">
             <div class="col-12">
                 <div class="card">
@@ -169,54 +162,5 @@
 </div>
 
 @section Scripts {
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
-    <script>
-        const app = new Vue({
-            el: "#app",
-            data: {
-                property: null,
-                loading: true
-            },
-            mounted() {
-                this.fetchProperty();
-            },
-            methods: {
-                fetchProperty() {
-                    // Obtener el ID de la URL (última parte después del último guion)
-                    const url = window.location.pathname;
-                    const parts = url.split('-');
-                    const id = parts[parts.length - 1];
-
-                    if (typeof api !== 'undefined') {
-                        api.getRequest(`/property/${id}`)
-                            .then(res => {
-                                this.property = res.data || null;
-                                this.loading = false;
-                            })
-                            .catch(err => {
-                                console.error("Error fetching property", err);
-                                this.property = null;
-                                this.loading = false;
-                            });
-                    } else {
-                        console.error("El objeto 'api' no está definido.");
-                        this.loading = false;
-                    }
-                },
-                formatPrice(price) {
-                    return new Intl.NumberFormat('es-PE').format(price);
-                },
-                formatDate(dateString) {
-                    const date = new Date(dateString);
-                    return date.toLocaleDateString('es-PE', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric'
-                    });
-                }
-            }
-        });
-    </script>
-}
+    <script src="~/js/oneProperty.js"></script>
 }

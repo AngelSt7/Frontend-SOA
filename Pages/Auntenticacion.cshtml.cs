@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace WebVue.Pages
+namespace WebApi.Pages
 {
-    public class AlumnoModel : PageModel
+    public class AuntenticacionModel : PageModel
     {
         public void OnGet()
         {

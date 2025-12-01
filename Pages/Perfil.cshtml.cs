@@ -1,8 +1,9 @@
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace WebVue.Pages.Shared.property
+namespace WebApi.Pages
 {
-    public class _PropertyClientFiltersModel : PageModel
+    public class PerfilModel : PageModel
     {
         public void OnGet()
         {

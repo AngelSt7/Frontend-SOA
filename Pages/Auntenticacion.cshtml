@@ -1,0 +1,164 @@
+﻿        @page
+        @model WebApi.Pages.AuntenticacionModel
+        @{
+        }
+        <div id="app" class="container mt-5">
+
+            <h2>Autenticación</h2>
+
+            <div v-if="vista === 'login'">
+                <h4>Iniciar Sesión</h4>
+                <p>Email: <input v-model="login.email" class="form-control" /></p>
+                <p>Contraseña: <input type="password" v-model="login.password" class="form-control" /></p>
+                <button class="btn btn-primary" @@click="iniciarSesion">Entrar</button>
+                <button class="btn btn-link" @@click="vista='register'">Crear Cuenta</button>
+            </div>
+
+            <div v-if="vista === 'register'">
+                <h4>Registrar Usuario</h4>
+
+                <p>Nombres: <input v-model="register.name" class="form-control" /></p>
+                <p>Apellidos: <input v-model="register.lastname" class="form-control" /></p>
+                <p>Email: <input v-model="register.email" class="form-control" /></p>
+                <p>Contraseña: <input type="password" v-model="register.password" class="form-control" /></p>
+                <p>Teléfono: <input v-model="register.phone" class="form-control" /></p>
+                <p>Fecha de nacimiento: <input type="date" v-model="register.birthDate" class="form-control" /></p>
+
+                <button class="btn btn-success" @@click="registrarUsuario">Registrar</button>   
+                <button class="btn btn-link" @@click="vista='login'">Volver</button>
+            </div>
+
+            <div v-if="vista === 'otp'">
+                <h4>Confirmar Cuenta</h4>
+
+                <p><strong>Correo:</strong> {{ otp.email }}</p>
+
+                <p>Ingresa el código de 6 dígitos enviado a tu correo:</p>
+                <input v-model="otp.code" maxlength="6" class="form-control w-25" />
+
+                <button class="btn btn-warning mt-2" @@click ="confirmarOTP">Confirmar Código</button>
+            </div>
+
+        </div>
+
+        <script>
+            new Vue({
+                el: "#app",
+                data: {
+                    vista: 'login',
+
+                    login: {
+                        email: "",
+                        password: ""
+                    },
+
+                    register: {
+                         name: "",
+                        lastname: "",
+                        email: "",
+                        password: "",
+                        phone: "",
+                        birthDate: ""
+                    },
+
+                    otp: {
+                        email: "",
+                        code: ""
+                    }
+                },
+
+                methods: {
+
+                    // ----------------------------
+                    // 1. LOGIN
+                    // ----------------------------
+                       iniciarSesion() {
+               var url = "http://localhost:4000/api/Auth/Iniciodesesion";
+
+            this.$http.post(url, this.login)
+                .then(resp => {
+
+                    console.log("LOGIN", resp.body);
+
+                    if (resp.body.token) {
+                        localStorage.setItem("token", resp.body.token);
+                        window.location.href = "/Perfil";   // ⬅ IR AL PERFIL
+                    }
+
+                    alert(resp.body.message);
+
+                })
+                .catch(error => {
+
+                    console.error("ERROR LOGIN", error);
+
+                    if (error.body?.message)
+                        alert("❌ " + error.body.message);
+                    else
+                        alert("❌ Credenciales incorrectas");
+                    });
+                 },
+
+                    // ----------------------------
+                    // 2. REGISTRO
+                    // ----------------------------
+                             registrarUsuario() {
+
+                var url = "http://localhost:4000/api/Auth/Crearcuenta";
+
+                this.$http.post(url, this.register).then(resp => {
+
+                    console.log("REGISTRO", resp.body);
+
+                    alert(resp.body.message || "Usuario creado. Revise su correo.");
+
+                    this.otp.email = this.register.email;
+                    this.vista = "otp";
+
+                }, err => {
+
+                    console.error("ERROR REGISTRO:", err);
+
+                    if (err.status === 400) {
+                        alert("Datos incompletos o inválidos.");
+                    }
+                    else if (err.status === 409 || err.status === 500) {
+                        alert("El correo ya está registrado.");
+                    }
+                    else {
+                        alert("Error del servidor.");
+                    }
+                });
+                     },
+
+                    // ----------------------------
+                    // 3. CONFIRMAR OTP
+                    // ----------------------------
+                        confirmarOTP() {
+
+                var url = "http://localhost:4000/api/Auth/Confirmarcuenta";
+
+                const data = {
+                    email: this.otp.email,
+                    token: this.otp.code
+                };
+
+                this.$http.post(url, data).then(resp => {
+
+                    alert(resp.body.message || "Cuenta confirmada correctamente.");
+
+                    this.vista = "login";
+
+                }, err => {
+                    console.error("ERROR OTP:", err);
+
+                    if (err.status === 400)
+                        alert("Código incorrecto o expirado.");
+                    else
+                        alert("Error al confirmar la cuenta.");
+                            });
+    
+                            }
+                }
+            });
+        </script>

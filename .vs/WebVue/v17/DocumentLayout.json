@@ -3,24 +3,8 @@
   "WorkspaceRootPath": "C:\\Users\\Angel\\Desktop\\WebVue\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{F1EC6314-9AFC-7950-0C5C-C3743FC1C9E6}|WebVue.csproj|c:\\users\\angel\\desktop\\webvue\\pages\\inmueble\\clasificado.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{F1EC6314-9AFC-7950-0C5C-C3743FC1C9E6}|WebVue.csproj|solutionrelative:pages\\inmueble\\clasificado.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F1EC6314-9AFC-7950-0C5C-C3743FC1C9E6}|WebVue.csproj|c:\\users\\angel\\desktop\\webvue\\pages\\inmueble\\clasificado.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F1EC6314-9AFC-7950-0C5C-C3743FC1C9E6}|WebVue.csproj|solutionrelative:pages\\inmueble\\clasificado.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F1EC6314-9AFC-7950-0C5C-C3743FC1C9E6}|WebVue.csproj|c:\\users\\angel\\desktop\\webvue\\wwwroot\\js\\buscar.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{F1EC6314-9AFC-7950-0C5C-C3743FC1C9E6}|WebVue.csproj|solutionrelative:wwwroot\\js\\buscar.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F1EC6314-9AFC-7950-0C5C-C3743FC1C9E6}|WebVue.csproj|c:\\users\\angel\\desktop\\webvue\\webvue.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
-      "RelativeMoniker": "D:0:0:{F1EC6314-9AFC-7950-0C5C-C3743FC1C9E6}|WebVue.csproj|solutionrelative:webvue.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F1EC6314-9AFC-7950-0C5C-C3743FC1C9E6}|WebVue.csproj|c:\\users\\angel\\desktop\\webvue\\pages\\shared\\property\\_propertyclientresults.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{F1EC6314-9AFC-7950-0C5C-C3743FC1C9E6}|WebVue.csproj|solutionrelative:pages\\shared\\property\\_propertyclientresults.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{F1EC6314-9AFC-7950-0C5C-C3743FC1C9E6}|WebVue.csproj|c:\\users\\angel\\desktop\\webvue\\pages\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F1EC6314-9AFC-7950-0C5C-C3743FC1C9E6}|WebVue.csproj|solutionrelative:pages\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -30,76 +14,24 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 1,
           "Children": [
             {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "_PropertyClientResults.cshtml",
-              "DocumentMoniker": "C:\\Users\\Angel\\Desktop\\WebVue\\Pages\\Shared\\property\\_PropertyClientResults.cshtml",
-              "RelativeDocumentMoniker": "Pages\\Shared\\property\\_PropertyClientResults.cshtml",
-              "ToolTip": "C:\\Users\\Angel\\Desktop\\WebVue\\Pages\\Shared\\property\\_PropertyClientResults.cshtml",
-              "RelativeToolTip": "Pages\\Shared\\property\\_PropertyClientResults.cshtml",
-              "ViewState": "AgIAAA8AAAAAAAAAAAAAAEAAAAARAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-11-27T22:23:40.603Z",
-              "IsPinned": true,
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "buscar.js",
-              "DocumentMoniker": "C:\\Users\\Angel\\Desktop\\WebVue\\wwwroot\\js\\buscar.js",
-              "RelativeDocumentMoniker": "wwwroot\\js\\buscar.js",
-              "ToolTip": "C:\\Users\\Angel\\Desktop\\WebVue\\wwwroot\\js\\buscar.js",
-              "RelativeToolTip": "wwwroot\\js\\buscar.js",
-              "ViewState": "AgIAABUAAAAAAAAAAAAAABgAAAAuAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2025-11-28T00:20:14.273Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "WebVue",
-              "DocumentMoniker": "C:\\Users\\Angel\\Desktop\\WebVue\\WebVue.csproj",
-              "RelativeDocumentMoniker": "WebVue.csproj",
-              "ToolTip": "C:\\Users\\Angel\\Desktop\\WebVue\\WebVue.csproj",
-              "RelativeToolTip": "WebVue.csproj",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2025-11-28T01:11:36.152Z",
-              "EditorCaption": ""
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Clasificado.cshtml",
-              "DocumentMoniker": "C:\\Users\\Angel\\Desktop\\WebVue\\Pages\\Inmueble\\Clasificado.cshtml",
-              "RelativeDocumentMoniker": "Pages\\Inmueble\\Clasificado.cshtml",
-              "ToolTip": "C:\\Users\\Angel\\Desktop\\WebVue\\Pages\\Inmueble\\Clasificado.cshtml",
-              "RelativeToolTip": "Pages\\Inmueble\\Clasificado.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAN0AAAABAAAAAAAAAA==",
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "C:\\Users\\Angel\\Desktop\\WebVue\\Pages\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "Pages\\Shared\\_Layout.cshtml",
+              "ToolTip": "C:\\Users\\Angel\\Desktop\\WebVue\\Pages\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "Pages\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAAACYAAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-11-28T00:32:20.705Z",
+              "WhenOpened": "2025-12-01T01:44:03.038Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Clasificado.cshtml.cs",
-              "DocumentMoniker": "C:\\Users\\Angel\\Desktop\\WebVue\\Pages\\Inmueble\\Clasificado.cshtml.cs",
-              "RelativeDocumentMoniker": "Pages\\Inmueble\\Clasificado.cshtml.cs",
-              "ToolTip": "C:\\Users\\Angel\\Desktop\\WebVue\\Pages\\Inmueble\\Clasificado.cshtml.cs",
-              "RelativeToolTip": "Pages\\Inmueble\\Clasificado.cshtml.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAlAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-28T00:27:48.123Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
             }
           ]
         }
