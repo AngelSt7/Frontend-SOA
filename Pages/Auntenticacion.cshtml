@@ -73,31 +73,31 @@
                     // 1. LOGIN
                     // ----------------------------
                        iniciarSesion() {
-               var url = "http://localhost:4000/api/Auth/Iniciodesesion";
+                      var url = "http://localhost:4000/api/Auth/Iniciodesesion";
 
-            this.$http.post(url, this.login)
-                .then(resp => {
+                this.$http.post(url, this.login, { withCredentials: true })
+                    .then(resp => {
 
-                    console.log("LOGIN", resp.body);
+                        console.log("LOGIN", resp.body);
 
-                    if (resp.body.token) {
-                        localStorage.setItem("token", resp.body.token);
-                        window.location.href = "/Perfil";   // ⬅ IR AL PERFIL
-                    }
+                        if (resp.body.token) {
+                            localStorage.setItem("token", resp.body.token);
+                            window.location.href = "/Perfil";   // ⬅ IR AL PERFIL
+                        }
 
-                    alert(resp.body.message);
+                        alert(resp.body.message);
 
-                })
-                .catch(error => {
+                    })
+                    .catch(error => {
 
-                    console.error("ERROR LOGIN", error);
+                        console.error("ERROR LOGIN", error);
 
-                    if (error.body?.message)
-                        alert("❌ " + error.body.message);
-                    else
-                        alert("❌ Credenciales incorrectas");
-                    });
-                 },
+                        if (error.body?.message)
+                            alert("❌ " + error.body.message);
+                        else
+                            alert("❌ Credenciales incorrectas");
+                        });
+                    },
 
                     // ----------------------------
                     // 2. REGISTRO
@@ -107,8 +107,6 @@
                 var url = "http://localhost:4000/api/Auth/Crearcuenta";
 
                 this.$http.post(url, this.register).then(resp => {
-
-                    console.log("REGISTRO", resp.body);
 
                     alert(resp.body.message || "Usuario creado. Revise su correo.");
 

@@ -340,7 +340,7 @@
                 var url = "http://localhost:4000/api/property-admin";
 
                 // Se envía el objeto this.propiedad que ya incluye servicesId
-                this.$http.post(url, this.propiedad)
+                this.$http.post(url, this.propiedad, { withCredentials: true } )
                     .then(resp => {
 
                         alert(resp.body.message || "Propiedad registrada correctamente.");

@@ -293,7 +293,7 @@
 
                 const url = `http://localhost:4000/api/property-admin/${uuid}`;
 
-                return this.$http.get(url)
+                return this.$http.get(url, { withCredentials: true })
                     .then(resp => {
                         console.log("📦 RESPUESTA API:", resp.body);
                         this.loadPropertyData(resp.body);
