@@ -1,0 +1,127 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\USER\\Desktop\\Frontend-SOA\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{F1EC6314-9AFC-7950-0C5C-C3743FC1C9E6}|WebVue.csproj|c:\\users\\user\\desktop\\frontend-soa\\pages\\admin\\propiedad\\crear\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F1EC6314-9AFC-7950-0C5C-C3743FC1C9E6}|WebVue.csproj|solutionrelative:pages\\admin\\propiedad\\crear\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F1EC6314-9AFC-7950-0C5C-C3743FC1C9E6}|WebVue.csproj|c:\\users\\user\\desktop\\frontend-soa\\pages\\admin.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F1EC6314-9AFC-7950-0C5C-C3743FC1C9E6}|WebVue.csproj|solutionrelative:pages\\admin.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F1EC6314-9AFC-7950-0C5C-C3743FC1C9E6}|WebVue.csproj|c:\\users\\user\\desktop\\frontend-soa\\pages\\admin\\propiedad\\editar\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F1EC6314-9AFC-7950-0C5C-C3743FC1C9E6}|WebVue.csproj|solutionrelative:pages\\admin\\propiedad\\editar\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F1EC6314-9AFC-7950-0C5C-C3743FC1C9E6}|WebVue.csproj|c:\\users\\user\\desktop\\frontend-soa\\pages\\auntenticacion.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F1EC6314-9AFC-7950-0C5C-C3743FC1C9E6}|WebVue.csproj|solutionrelative:pages\\auntenticacion.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F1EC6314-9AFC-7950-0C5C-C3743FC1C9E6}|WebVue.csproj|c:\\users\\user\\desktop\\frontend-soa\\pages\\auntenticacion.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F1EC6314-9AFC-7950-0C5C-C3743FC1C9E6}|WebVue.csproj|solutionrelative:pages\\auntenticacion.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F1EC6314-9AFC-7950-0C5C-C3743FC1C9E6}|WebVue.csproj|c:\\users\\user\\desktop\\frontend-soa\\pages\\editarpropiedad.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F1EC6314-9AFC-7950-0C5C-C3743FC1C9E6}|WebVue.csproj|solutionrelative:pages\\editarpropiedad.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\USER\\Desktop\\Frontend-SOA\\Pages\\Admin\\Propiedad\\Crear\\Index.cshtml",
+              "RelativeDocumentMoniker": "Pages\\Admin\\Propiedad\\Crear\\Index.cshtml",
+              "ToolTip": "C:\\Users\\USER\\Desktop\\Frontend-SOA\\Pages\\Admin\\Propiedad\\Crear\\Index.cshtml",
+              "RelativeToolTip": "Pages\\Admin\\Propiedad\\Crear\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-12-02T18:44:57.811Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Admin.cshtml",
+              "DocumentMoniker": "C:\\Users\\USER\\Desktop\\Frontend-SOA\\Pages\\Admin.cshtml",
+              "RelativeDocumentMoniker": "Pages\\Admin.cshtml",
+              "ToolTip": "C:\\Users\\USER\\Desktop\\Frontend-SOA\\Pages\\Admin.cshtml",
+              "RelativeToolTip": "Pages\\Admin.cshtml",
+              "ViewState": "AgIAAIcBAAAAAAAAAAAAAKUBAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-12-02T16:13:06.027Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Auntenticacion.cshtml",
+              "DocumentMoniker": "C:\\Users\\USER\\Desktop\\Frontend-SOA\\Pages\\Auntenticacion.cshtml",
+              "RelativeDocumentMoniker": "Pages\\Auntenticacion.cshtml",
+              "ToolTip": "C:\\Users\\USER\\Desktop\\Frontend-SOA\\Pages\\Auntenticacion.cshtml",
+              "RelativeToolTip": "Pages\\Auntenticacion.cshtml",
+              "ViewState": "AgIAAIoAAAAAAAAAAAAowJUAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-12-02T17:43:14.756Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Auntenticacion.cshtml.cs",
+              "DocumentMoniker": "C:\\Users\\USER\\Desktop\\Frontend-SOA\\Pages\\Auntenticacion.cshtml.cs",
+              "RelativeDocumentMoniker": "Pages\\Auntenticacion.cshtml.cs",
+              "ToolTip": "C:\\Users\\USER\\Desktop\\Frontend-SOA\\Pages\\Auntenticacion.cshtml.cs",
+              "RelativeToolTip": "Pages\\Auntenticacion.cshtml.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-02T17:43:11.959Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\USER\\Desktop\\Frontend-SOA\\Pages\\Admin\\Propiedad\\Editar\\Index.cshtml",
+              "RelativeDocumentMoniker": "Pages\\Admin\\Propiedad\\Editar\\Index.cshtml",
+              "ToolTip": "C:\\Users\\USER\\Desktop\\Frontend-SOA\\Pages\\Admin\\Propiedad\\Editar\\Index.cshtml",
+              "RelativeToolTip": "Pages\\Admin\\Propiedad\\Editar\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAPEAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-12-02T17:41:37.077Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "EditarPropiedad.cshtml",
+              "DocumentMoniker": "C:\\Users\\USER\\Desktop\\Frontend-SOA\\Pages\\EditarPropiedad.cshtml",
+              "RelativeDocumentMoniker": "Pages\\EditarPropiedad.cshtml",
+              "ToolTip": "C:\\Users\\USER\\Desktop\\Frontend-SOA\\Pages\\EditarPropiedad.cshtml*",
+              "RelativeToolTip": "Pages\\EditarPropiedad.cshtml*",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-12-02T17:34:37.261Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

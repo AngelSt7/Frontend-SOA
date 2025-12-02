@@ -1,0 +1,449 @@
+﻿@page "{uuid}"
+@model WebVue.Pages.Propiedad.Editar.IndexModel
+
+<div id="app" class="container mt-5">
+
+    <h2>Editar Propiedad</h2>
+
+    <div v-if="loading" class="alert alert-info">Cargando datos de la propiedad...</div>
+    <div v-else-if="error" class="alert alert-danger">{{ error }}</div>
+
+    <div v-else>
+        <div>
+
+            <p>
+                Name:
+                <input v-model="propiedad.name" class="form-control" />
+            </p>
+
+            <div class="col-12">
+                <label class="form-label">Ubicación</label>
+
+                <div class="position-relative">
+
+                    <input type="text"
+                           class="form-control"
+                           v-model="locationSearch"
+                           @@input="filterLocations"
+                           @@focus="showLocationDropdown = true"
+                           placeholder="Buscar departamento, provincia o distrito..." />
+
+                    <div v-if="showLocationDropdown && filteredLocations.length > 0"
+                         class="position-absolute w-100 bg-white border rounded shadow-sm mt-1"
+                         style="max-height: 300px; overflow-y: auto; z-index: 1000;">
+
+                        <div v-for="location in filteredLocations"
+                             :key="location.id"
+                             @@click="selectLocation(location)"
+                             class="p-2"
+                             style="cursor: pointer; border-bottom: 1px solid #eee;">
+
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span>{{ location.name }}</span>
+                                <span class="badge"
+                                      :class="{
+                                          'bg-primary': location.type === 'DEPARTMENT',
+                                          'bg-info': location.type === 'PROVINCE',
+                                          'bg-secondary': location.type === 'DISTRICT'
+                                      }">
+                                    {{ location.type }}
+                                </span>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <small v-if="selectedLocation" class="text-muted">
+                    Seleccionado: {{ selectedLocation.name }}
+                    <button @@click="clearLocation"
+                            class="btn btn-sm btn-link text-danger p-0 ms-2">
+                        ✕ Limpiar
+                    </button>
+                </small>
+            </div>
+
+            <input type="hidden" v-model="propiedad.locationId" />
+
+            <p>
+                Property Type:
+                <select v-model="propiedad.propertyType" class="form-control">
+                    <option disabled value="">Seleccione</option>
+                    <option value="SALE">Sale</option>
+                    <option value="RENT">Rent</option>
+                </select>
+            </p>
+
+            <p>
+                Property Category:
+                <select v-model="propiedad.propertyCategory" class="form-control">
+                    <option disabled value="">Seleccione</option>
+                    <option value="HOUSE">House</option>
+                    <option value="APARTMENT">Apartment</option>
+                </select>
+            </p>
+
+            <p>
+                Currency:
+                <select v-model="propiedad.currency" class="form-control">
+                    <option disabled value="">Seleccione</option>
+                    <option value="PEN">PEN</option>
+                    <option value="USD">USD</option>
+                </select>
+            </p>
+
+            <p>
+                Price:
+                <input type="number" v-model="propiedad.price" class="form-control" />
+            </p>
+
+            <p>
+                Address:
+                <input v-model="propiedad.address" class="form-control" />
+            </p>
+
+            <p>
+                Description:
+                <textarea v-model="propiedad.description" class="form-control"></textarea>
+            </p>
+
+            <p>
+                Bedrooms:
+                <input type="number" v-model="propiedad.bedrooms" class="form-control" />
+            </p>
+
+            <p>
+                Bathrooms:
+                <input type="number" v-model="propiedad.bathrooms" class="form-control" />
+            </p>
+
+            <p>
+                Area (m²):
+                <input type="number" v-model="propiedad.area" class="form-control" />
+            </p>
+
+            <p>
+                Furnished:
+                <label class="form-switch">
+                    <input type="checkbox" v-model="propiedad.furnished">
+                    <span>{{ propiedad.furnished ? 'Yes' : 'No' }}</span>
+                </label>
+            </p>
+
+            <p>
+                Floor:
+                <input type="number" v-model="propiedad.floor" class="form-control" />
+            </p>
+
+            <p>
+                Has Parking:
+                <label class="form-switch">
+                    <input type="checkbox" v-model="propiedad.hasParking">
+                    <span>{{ propiedad.hasParking ? 'Yes' : 'No' }}</span>
+                </label>
+            </p>
+
+            <p>
+                Parking Space:
+                <input type="number" v-model="propiedad.parkingSpace" class="form-control" />
+            </p>
+
+            <p>
+                Has Terrace:
+                <label class="form-switch">
+                    <input type="checkbox" v-model="propiedad.hasTerrace">
+                    <span>{{ propiedad.hasTerrace ? 'Yes' : 'No' }}</span>
+                </label>
+            </p>
+
+            <p>
+                Year Built:
+                <input type="number" v-model="propiedad.yearBuilt" class="form-control" />
+            </p>
+
+            <p>
+                Extra Info:
+                <textarea v-model="propiedad.extraInfo" class="form-control"></textarea>
+            </p>
+
+            <p>
+                Teléfono:
+                <input v-model="propiedad.phone" class="form-control" />
+            </p>
+
+            <div class="mt-4">
+                <label class="form-label">Servicios Disponibles</label>
+
+                <div v-if="services.length === 0" class="text-muted">
+                    Cargando servicios...
+                </div>
+
+                <div v-for="srv in services"
+                     :key="srv.id"
+                     class="form-check">
+
+                    <input class="form-check-input"
+                           type="checkbox"
+                           :value="srv.id"
+                           v-model="propiedad.servicesId"> <label class="form-check-label">
+                        {{ srv.name }}
+                    </label>
+                </div>
+            </div>
+
+            <button class="btn btn-warning mt-4" @@click="guardarPropiedad">
+                Actualizar Propiedad
+            </button>
+
+        </div>
+
+    </div>
+</div>
+
+<script>
+    new Vue({
+        el: "#app",
+
+        data: {
+            loading: true,
+            error: null,
+
+            // PROPIEDAD
+            propiedad: {
+                id: null,
+                name: "",
+                locationId: null,
+                propertyType: "",
+                propertyCategory: "",
+                currency: "",
+                price: 0,
+                address: "",
+                description: "",
+                bedrooms: 0,
+                bathrooms: 0,
+                area: 0,
+                furnished: false,
+                floor: 0,
+                hasParking: false,
+                parkingSpace: 0,
+                hasTerrace: false,
+                yearBuilt: new Date().getFullYear(),
+                extraInfo: "",
+                phone: "",
+                servicesId: [],
+                // 💡 AÑADIDO: Campos de Latitud y Longitud
+                latitude: 0,
+                longitude: 0
+            },
+
+            // BUSCADOR DE UBICACIÓN
+            locations: [],
+            locationSearch: "",
+            filteredLocations: [],
+            showLocationDropdown: false,
+            selectedLocation: null,
+
+            // LISTA DE SERVICIOS
+            services: []
+        },
+
+        mounted() {
+            this.fetchServices();
+            this.initializeLocationData();
+
+            // Cierra el dropdown al hacer click fuera
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.position-relative')) {
+                    this.showLocationDropdown = false;
+                }
+            });
+        },
+
+        methods: {
+            // ==================================================
+            // CONTROL DE ASINCRONÍA DE DATOS INICIALES
+            // ==================================================
+            initializeLocationData() {
+                this.fetchLocations()
+                    .then(() => {
+                        return this.obtenerPropiedadPorUuid();
+                    })
+                    .catch(err => {
+                        console.error("Error al inicializar datos de ubicación o propiedad:", err);
+                        this.error = "No se pudieron cargar los datos de ubicación o propiedad iniciales.";
+                        this.loading = false;
+                    });
+            },
+
+            // ==================================================
+            // OBTENER PROPIEDAD USANDO EL UUID DE LA URL
+            // ==================================================
+            obtenerPropiedadPorUuid() {
+                this.loading = true;
+                this.error = null;
+                const uuid = window.location.pathname.split("/").pop();
+
+                if (!uuid || uuid.length !== 36) {
+                    this.error = "UUID de propiedad inválido.";
+                    this.loading = false;
+                    return Promise.reject("UUID de propiedad inválido.");
+                }
+
+                const url = `http://localhost:4000/api/property-admin/${uuid}`;
+
+                return this.$http.get(url)
+                    .then(resp => {
+                        console.log("📦 RESPUESTA API:", resp.body);
+                        this.loadPropertyData(resp.body);
+                        this.loading = false;
+                    })
+                    .catch(error => {
+                        console.error("❌ ERROR AL OBTENER PROPIEDAD:", error);
+                        this.error = "No se pudo cargar la propiedad para edición.";
+                        this.loading = false;
+                        throw error;
+                    });
+            },
+
+            // ==================================================
+            // MAPEO DE DATOS DE API AL OBJETO DE VUE
+            // ==================================================
+            loadPropertyData(data) {
+                this.propiedad = {
+                    id: data.id,
+                    name: data.name,
+                    locationId: data.locationId,
+                    propertyType: data.propertyType,
+                    propertyCategory: data.propertyCategory,
+                    currency: data.currency,
+                    price: data.price,
+                    address: data.address,
+                    description: data.description,
+                    bedrooms: data.bedrooms,
+                    bathrooms: data.bathrooms,
+                    area: data.area,
+                    furnished: data.furnished,
+                    floor: data.floor,
+                    hasParking: data.hasParking,
+                    parkingSpace: data.parkingSpaces || 0,
+                    hasTerrace: data.hasTerrace,
+                    yearBuilt: data.yearBuilt,
+                    extraInfo: data.extraInfo,
+                    phone: data.phone,
+                    servicesId: data.servicesId || [],
+                    // 💡 CORREGIDO: Mapeo de Latitud y Longitud
+                    latitude: data.latitude || 0,
+                    longitude: data.longitude || 0
+                };
+
+                const initialLocation = this.locations.find(loc => loc.id === data.locationId);
+                if (initialLocation) {
+                    this.selectLocation(initialLocation);
+                } else {
+                    console.warn(`⚠️ Ubicación con ID ${data.locationId} no encontrada en la lista.`);
+                }
+            },
+
+            // -----------------------------------
+            // GUARDAR PROPIEDAD (ACTUALIZAR con PUT)
+            // -----------------------------------
+            guardarPropiedad() {
+                if (!this.propiedad.locationId) {
+                    alert("Debe seleccionar una ubicación.");
+                    return;
+                }
+
+                if (!this.propiedad.id) {
+                    alert("Error: ID de propiedad no encontrado para actualizar.");
+                    return;
+                }
+
+                var url = `http://localhost:4000/api/property-admin/${this.propiedad.id}`;
+
+                // Preparamos el payload y DEVOLVEMOS los campos latitude y longitude
+                const payload = {
+                    ...this.propiedad,
+                    parkingSpaces: this.propiedad.parkingSpace
+                };
+                delete payload.id;
+                delete payload.parkingSpace;
+
+                // NOTA: latitude y longitude están ya en payload si son propiedades de this.propiedad.
+
+                this.$http.put(url, payload)
+                    .then(resp => {
+                        alert(resp.body.message || "Propiedad actualizada correctamente.");
+                    })
+                    .catch(err => {
+                        console.error("Error al actualizar la propiedad:", err);
+                        alert("Error al actualizar la propiedad.");
+                    });
+            },
+
+            // -----------------------------------
+            // CARGAR SERVICIOS DEL ENDPOINT
+            // -----------------------------------
+            fetchServices() {
+                 return fetch("http://localhost:4000/api/service")
+                    .then(r => r.json())
+                    .then(data => {
+                        if (Array.isArray(data)) {
+                            this.services = data;
+                        }
+                    })
+                    .catch(err => {
+                        console.error("Error cargando servicios:", err);
+                    });
+            },
+
+            // -----------------------------------------------------------------
+            // BUSCADOR UBICACIONES - DEBE DEVOLVER UNA PROMISE para encadenar
+            // -----------------------------------------------------------------
+            fetchLocations() {
+                return new Promise((resolve, reject) => {
+                    if (typeof api !== 'undefined') {
+                        api.getRequest("/location/DISTRICT")
+                            .then(res => {
+                                this.locations = res.data || [];
+                                this.filteredLocations = res.data || [];
+                                resolve();
+                            })
+                            .catch(err => {
+                                console.error("Error fetching locations", err);
+                                reject(err);
+                            });
+                    } else {
+                        console.error("El objeto 'api' no está definido.");
+                        reject("El objeto 'api' no está definido.");
+                    }
+                });
+            },
+
+            filterLocations() {
+                const search = this.locationSearch.toLowerCase().trim();
+                this.filteredLocations = search === ""
+                    ? this.locations
+                    : this.locations.filter(location =>
+                        location.name.toLowerCase().includes(search)
+                    );
+                this.showLocationDropdown = true;
+            },
+
+            selectLocation(location) {
+                this.selectedLocation = location;
+                this.locationSearch = location.name;
+                this.showLocationDropdown = false;
+                this.propiedad.locationId = location.id;
+            },
+
+            clearLocation() {
+                this.selectedLocation = null;
+                this.locationSearch = "";
+                this.filteredLocations = this.locations;
+                this.propiedad.locationId = null;
+            }
+        }
+    });
+</script>

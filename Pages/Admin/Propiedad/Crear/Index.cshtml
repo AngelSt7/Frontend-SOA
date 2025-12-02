@@ -1,0 +1,421 @@
+﻿@page
+@model WebVue.Pages.Admin.Propiedad.Crear.IndexModel
+@{
+}
+<div id="app" class="container mt-5">
+
+    <h2>Registro de Propiedad</h2>
+
+    <div>
+
+        <p>
+            Name:
+            <input v-model="propiedad.name" class="form-control" />
+        </p>
+
+        <div class="col-12">
+            <label class="form-label">Ubicación</label>
+
+            <div class="position-relative">
+
+                <input type="text"
+                       class="form-control"
+                       v-model="locationSearch"
+                       @@input="filterLocations"
+                       @@focus="showLocationDropdown = true"
+                       placeholder="Buscar departamento, provincia o distrito..." />
+
+                <div v-if="showLocationDropdown && filteredLocations.length > 0"
+                     class="position-absolute w-100 bg-white border rounded shadow-sm mt-1"
+                     style="max-height: 300px; overflow-y: auto; z-index: 1000;">
+
+                    <div v-for="location in filteredLocations"
+                         :key="location.id"
+                         @@click="selectLocation(location)"
+                         class="p-2"
+                         style="cursor: pointer; border-bottom: 1px solid #eee;">
+
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span>{{ location.name }}</span>
+                            <span class="badge"
+                                  :class="{
+                                         'bg-primary': location.type === 'DEPARTMENT',
+                                         'bg-info': location.type === 'PROVINCE',
+                                         'bg-secondary': location.type === 'DISTRICT'
+                                     }">
+                                {{ location.type }}
+                            </span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <small v-if="selectedLocation" class="text-muted">
+                Seleccionado: {{ selectedLocation.name }}
+                <button @@click="clearLocation"
+                        class="btn btn-sm btn-link text-danger p-0 ms-2">
+                    ✕ Limpiar
+                </button>
+            </small>
+        </div>
+
+        <input type="hidden" v-model="propiedad.locationId" />
+
+        <p>
+            Property Type:
+            <select v-model="propiedad.propertyType" class="form-control">
+                <option disabled value="">Seleccione</option>
+                <option value="sale">Sale</option>
+                <option value="rent">Rent</option>
+            </select>
+        </p>
+
+        <p>
+            Property Category:
+            <select v-model="propiedad.propertyCategory" class="form-control">
+                <option disabled value="">Seleccione</option>
+                <option value="house">House</option>
+                <option value="apartment">Apartment</option>
+            </select>
+        </p>
+
+        <p>
+            Currency:
+            <select v-model="propiedad.currency" class="form-control">
+                <option disabled value="">Seleccione</option>
+                <option value="PEN">PEN</option>
+                <option value="USD">USD</option>
+            </select>
+        </p>
+
+        <p>
+            Price:
+            <input type="number" v-model="propiedad.price" class="form-control" />
+        </p>
+
+        <p>
+            Address:
+            <input v-model="propiedad.address" class="form-control" />
+        </p>
+
+        <p>
+            Description:
+            <textarea v-model="propiedad.description" class="form-control"></textarea>
+        </p>
+
+        <p>
+            Bedrooms:
+            <input type="number" v-model="propiedad.bedrooms" class="form-control" />
+        </p>
+
+        <p>
+            Bathrooms:
+            <input type="number" v-model="propiedad.bathrooms" class="form-control" />
+        </p>
+
+        <p>
+            Area (m²):
+            <input type="number" v-model="propiedad.area" class="form-control" />
+        </p>
+
+        <p>
+            Furnished:
+            <label class="form-switch">
+                <input type="checkbox" v-model="propiedad.furnished">
+                <span>{{ propiedad.furnished ? 'Yes' : 'No' }}</span>
+            </label>
+        </p>
+
+        <p>
+            Floor:
+            <input type="number" v-model="propiedad.floor" class="form-control" />
+        </p>
+
+        <p>
+            Has Parking:
+            <label class="form-switch">
+                <input type="checkbox" v-model="propiedad.hasParking">
+                <span>{{ propiedad.hasParking ? 'Yes' : 'No' }}</span>
+            </label>
+        </p>
+
+        <p>
+            Parking Space:
+            <input type="number" v-model="propiedad.parkingSpace" class="form-control" />
+        </p>
+
+        <p>
+            Has Terrace:
+            <label class="form-switch">
+                <input type="checkbox" v-model="propiedad.hasTerrace">
+                <span>{{ propiedad.hasTerrace ? 'Yes' : 'No' }}</span>
+            </label>
+        </p>
+
+        <p>
+            Year Built:
+            <input type="number" v-model="propiedad.yearBuilt" class="form-control" />
+        </p>
+
+        <p>
+            Extra Info:
+            <textarea v-model="propiedad.extraInfo" class="form-control"></textarea>
+        </p>
+
+        <p>
+            Teléfono:
+            <input v-model="propiedad.phone" class="form-control" />
+        </p>
+
+        <div class="mt-4">
+            <label class="form-label">Servicios Disponibles</label>
+
+            <div v-if="services.length === 0" class="text-muted">
+                Cargando servicios...
+            </div>
+
+            <div v-for="srv in services"
+                 :key="srv.id"
+                 class="form-check">
+
+                <input class="form-check-input"
+                       type="checkbox"
+                       :value="srv.id"
+                       v-model="propiedad.servicesId"> <label class="form-check-label">
+                    {{ srv.name }}
+                </label>
+            </div>
+        </div>
+
+        <button class="btn btn-success mt-4" @@click="guardarPropiedad">
+            Guardar Propiedad
+        </button>
+
+        <button class="btn btn-info mt-4 ms-2" @@click="loadExampleData">
+            Cargar Datos de Ejemplo
+        </button>
+
+
+    </div>
+
+</div>
+
+<script>
+    new Vue({
+        el: "#app",
+
+        data: {
+            propiedad: {
+                name: "",
+                locationId: null,
+                propertyType: "",
+                propertyCategory: "",
+                currency: "",
+                price: 0,
+                address: "",
+                description: "",
+                bedrooms: 0,
+                bathrooms: 0,
+                area: 0,
+                furnished: false,
+                floor: 0,
+                hasParking: false,
+                parkingSpace: 0,
+                hasTerrace: false,
+                yearBuilt: new Date().getFullYear(),
+                extraInfo: "",
+                phone: "",
+                servicesId: []  // ⬅ CAMBIO: servicesId es el array que se envía
+            },
+
+            // BUSCADOR DE UBICACIÓN
+            locations: [],
+            locationSearch: "",
+            filteredLocations: [],
+            showLocationDropdown: false,
+            selectedLocation: null,
+
+            // LISTA DE SERVICIOS
+            services: [] // Se cargará con fetchServices()
+        },
+
+        mounted() {
+            this.fetchLocations();
+            this.fetchServices();
+            // Llama a loadExampleData al montar para precargar
+            this.loadExampleData();
+
+            // Cierra el dropdown al hacer click fuera
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.position-relative')) {
+                    this.showLocationDropdown = false;
+                }
+            });
+        },
+
+        methods: {
+
+            // -----------------------------------
+            // ESTADO INICIAL Y DATOS DE EJEMPLO
+            // -----------------------------------
+            getInitialPropiedadState() {
+                return {
+                    name: "",
+                    locationId: null,
+                    propertyType: "",
+                    propertyCategory: "",
+                    currency: "",
+                    price: 0,
+                    address: "",
+                    description: "",
+                    bedrooms: 0,
+                    bathrooms: 0,
+                    area: 0,
+                    furnished: false,
+                    floor: 0,
+                    hasParking: false,
+                    parkingSpace: 0,
+                    hasTerrace: false,
+                    yearBuilt: new Date().getFullYear(),
+                    extraInfo: "",
+                    phone: "",
+                    servicesId: []
+                };
+            },
+
+            loadExampleData() {
+                // Reinicia la propiedad para empezar desde un estado limpio
+                this.propiedad = this.getInitialPropiedadState();
+
+                // Carga los datos de ejemplo
+                this.propiedad = {
+                    ...this.propiedad, // Mantiene la estructura base
+                    name: "Casa Familiar Modelo",
+                    propertyType: "sale", // Cambiado para probar diferentes valores
+                    propertyCategory: "house",
+                    currency: "USD",
+                    price: 150000.50,
+                    address: "Av. Los Próceres 123, Lima",
+                    description: "Amplia propiedad ubicada en zona céntrica con acceso a servicios.",
+                    bedrooms: 3,
+                    bathrooms: 2,
+                    area: 120.5,
+                    furnished: true,
+                    floor: 1,
+                    hasParking: true,
+                    parkingSpace: 1,
+                    hasTerrace: true,
+                    yearBuilt: 2010,
+                    extraInfo: "Propiedad recientemente remodelada.",
+                    phone: "987654321",
+                    // Asigna todos los IDs de servicios cargados (si hay)
+                    servicesId: this.services.map(s => s.id)
+                };
+
+                // Simula la selección de ubicación si hay datos cargados
+                if (this.locations.length > 0) {
+                    const location = this.locations[0];
+                    this.selectLocation(location);
+                } else {
+                    this.selectedLocation = null;
+                    this.locationSearch = "";
+                    this.propiedad.locationId = null;
+                }
+            },
+
+
+            // -----------------------------------
+            // GUARDAR PROPIEDAD
+            // -----------------------------------
+            guardarPropiedad() {
+
+                if (!this.propiedad.locationId) {
+                    alert("Debe seleccionar una ubicación.");
+                    return;
+                }
+
+                var url = "http://localhost:4000/api/property-admin";
+
+                // Se envía el objeto this.propiedad que ya incluye servicesId
+                this.$http.post(url, this.propiedad)
+                    .then(resp => {
+
+                        alert(resp.body.message || "Propiedad registrada correctamente.");
+
+                        // Reset al estado inicial
+                        this.propiedad = this.getInitialPropiedadState();
+                        this.selectedLocation = null;
+                        this.locationSearch = "";
+
+                    })
+                    .catch(err => {
+                        console.error("Error al guardar la propiedad:", err);
+                        alert("Error al guardar la propiedad.");
+                    });
+            },
+
+            // -----------------------------------
+            // CARGAR SERVICIOS DEL ENDPOINT
+            // -----------------------------------
+            fetchServices() {
+                fetch("http://localhost:4000/api/service")
+                    .then(r => r.json())
+                    .then(data => {
+                        if (Array.isArray(data)) {
+                             this.services = data;
+                        }
+                    })
+                    .catch(err => {
+                        console.error("Error cargando servicios:", err);
+                    });
+            },
+
+            // -----------------------------------
+            // BUSCADOR UBICACIONES - Sin cambios
+            // -----------------------------------
+            fetchLocations() {
+                if (typeof api !== 'undefined') {
+                    api.getRequest("/location/DISTRICT")
+                        .then(res => {
+                            this.locations = res.data || [];
+                            this.filteredLocations = res.data || [];
+                        })
+                        .catch(err => {
+                            console.error("Error fetching locations", err);
+                        });
+                } else {
+                    console.error("El objeto 'api' no está definido.");
+                }
+            },
+
+            filterLocations() {
+                const search = this.locationSearch.toLowerCase().trim();
+
+                this.filteredLocations = search === ""
+                    ? this.locations
+                    : this.locations.filter(location =>
+                        location.name.toLowerCase().includes(search)
+                    );
+
+                this.showLocationDropdown = true;
+            },
+
+            selectLocation(location) {
+                this.selectedLocation = location;
+                this.locationSearch = location.name;
+                this.showLocationDropdown = false;
+                this.propiedad.locationId = location.id;
+            },
+
+            clearLocation() {
+                this.selectedLocation = null;
+                this.locationSearch = "";
+                this.filteredLocations = this.locations;
+                this.propiedad.locationId = null;
+            }
+        }
+    });
+</script>
