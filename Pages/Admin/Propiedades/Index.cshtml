@@ -1,0 +1,352 @@
+﻿@page
+@model WebVue.Pages.Admin.Propiedad.IndexModel
+@{
+}
+
+<div id="me" class="container mt-5">
+    <h2 class="mb-4">Mis Propiedades</h2>
+
+    <a href="/admin/propiedades/crear"
+        class="btn btn-primary mb-4">
+        Crear propiedad
+    </a>
+
+<!-- ✅ FILTROS -->
+<div class="row mb-3 g-2">
+
+    <div class="col-md-3">
+        <select class="form-select"
+            @@change="setQueryParam('propertyType', $event.target.value)">
+            <option value="">Todos los tipos</option>
+            <option value="SALE">Venta</option>
+            <option value="RENT">Alquiler</option>
+        </select>
+    </div>
+
+    <div class="col-md-3">
+        <select class="form-select"
+                @@change="setQueryParam('propertyCategory', $event.target.value)">
+                <option value="">Todas las categorías</option>
+                <option value="APARTMENT">Departamento</option>
+                <option value="HOUSE">Casa</option>
+        </select>
+    </div>
+
+    <div class="col-md-2">
+        <select class="form-select"
+                @@change="setQueryParam('currency', $event.target.value)">
+            <option value="">Todas las monedas</option>
+            <option value="PEN">Soles (PEN)</option>
+            <option value="USD">Dólares (USD)</option>
+        </select>
+    </div>
+
+    <div class="col-md-2">
+        <select class="form-select"
+                @@change="setQueryParam('limit', $event.target.value)">
+            <option value="5">5 por página</option>
+            <option value="10" selected>10 por página</option>
+            <option value="15">15 por página</option>
+        </select>
+    </div>
+
+</div>
+
+    <div v-if="meta" class="mb-2 text-muted">
+        Mostrando
+        <strong>
+            {{ (meta.currentPage - 1) * meta.itemsPerPage + 1 }}
+            –
+            {{ Math.min(meta.currentPage * meta.itemsPerPage, meta.totalItems) }}
+        </strong>
+        de
+        <strong>{{ meta.totalItems }}</strong>
+        resultados
+    </div>
+
+
+<!-- ✅ TABLA -->
+    <div class="table-responsive" v-if="properties.length">
+        <table class="table table-bordered table-hover align-middle">
+            <thead class="table-dark text-center">
+                <tr>
+                    <th>Nombre</th>
+                    <th>Departamento</th>
+                    <th>Distrito</th>
+                    <th>Precio</th>
+                    <th>Tipo</th>
+                    <th>Categoría</th>
+                    <th>Dirección</th>
+                    <th>Disponibilidad</th>
+                    <th>Año</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="item in properties" :key="item.id">
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.department }}</td>
+                    <td>{{ item.district }}</td>
+                    <td class="text-end">
+                        {{ formatPrice(item.price) }} {{ item.currency }}
+                    </td>
+                    <td>{{ translateType(item.propertyType) }}</td>
+                    <td>{{ translateCategory(item.propertyCategory) }}</td>
+                    <td>{{ item.address }}</td>
+                    <td class="text-center">
+                        <span class="badge user-select-none"
+                                style="cursor: pointer;"
+                                @@dblclick="changeStatus(item.id)"
+                                :class="item.availability ? 'bg-success' : 'bg-danger'">
+                            {{ item.availability ? 'Disponible' : 'No disponible' }}
+                        </span>
+                    </td>
+                    <td class="text-center">{{ item.yearBuilt }}</td>
+                    <td class="text-center">
+                        <div class="btn-group">
+                            <button class="btn btn-info btn-sm"
+                                    @@click="openDetails(item.id)"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#detailsModal">
+                                Ver
+                            </button>
+
+                            <a :href="'/admin/propiedades/editar/' + item.id"
+                                class="btn btn-warning btn-sm">
+                                Editar
+                            </a>
+                        </div>
+                    </td>
+
+                </tr>
+            </tbody>
+        </table>
+
+
+    <!-- ✅ MODAL -->
+        <div class="modal fade" id="detailsModal" tabindex="-1">
+            <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h5 class="modal-title">Detalle de Propiedad</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+
+                    <div class="modal-body" v-if="selectedProperty">
+
+                        <img src="https://images.homify.com/v1461736435/p/photo/image/1478940/mv_chontay_13.jpg"
+                                class="img-fluid rounded mb-3">
+
+                        <h4 class="mb-2">{{ selectedProperty.name }}</h4>
+                        <p class="text-muted mb-3">{{ selectedProperty.description }}</p>
+
+                        <p><strong>Extra:</strong> {{ selectedProperty.extraInfo }}</p>
+                        <p><strong>Teléfono:</strong> {{ selectedProperty.phone }}</p>
+                        <p><strong>Dirección:</strong> {{ selectedProperty.address }}</p>
+
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <p>
+                                    <strong>Precio:</strong>
+                                    {{ formatPrice(selectedProperty.price) }} {{ selectedProperty.currency }}
+                                </p>
+                                <p><strong>Tipo:</strong> {{ translateType(selectedProperty.propertyType) }}</p>
+                                <p><strong>Categoría:</strong> {{ translateCategory(selectedProperty.propertyCategory) }}</p>
+                                <p><strong>Año:</strong> {{ selectedProperty.yearBuilt }}</p>
+                            </div>
+
+                            <div class="col-md-6">
+                                <p><strong>Área:</strong> {{ selectedProperty.area }} m²</p>
+                                <p><strong>Dormitorios:</strong> {{ selectedProperty.bedrooms }}</p>
+                                <p><strong>Baños:</strong> {{ selectedProperty.bathrooms }}</p>
+                                <p><strong>Piso:</strong> {{ selectedProperty.floor }}</p>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <p>
+                            <strong>Amoblado:</strong>
+                            <span :class="selectedProperty.furnished ? 'text-success' : 'text-danger'">
+                                {{ selectedProperty.furnished ? 'Sí' : 'No' }}
+                            </span>
+                        </p>
+
+                        <p>
+                            <strong>Estacionamiento:</strong>
+                            {{ selectedProperty.hasParking ? 'Sí (' + selectedProperty.parkingSpaces + ')' : 'No' }}
+                        </p>
+
+                        <p>
+                            <strong>Terraza:</strong>
+                            {{ selectedProperty.hasTerrace ? 'Sí' : 'No' }}
+                        </p>
+
+                        <p>
+                            <strong>Disponibilidad:</strong>
+                            <span :class="selectedProperty.availability ? 'text-success' : 'text-danger'">
+                                {{ selectedProperty.availability ? 'Disponible' : 'No disponible' }}
+                            </span>
+                        </p>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" data-bs-dismiss="modal">
+                            Cerrar
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    <!-- ✅ PAGINADOR -->
+        <nav v-if="meta" class="mt-4">
+            <ul class="pagination justify-content-center">
+
+                <li class="page-item" :class="{ disabled: !meta.prevPage }">
+                    <a class="page-link" href="#"
+                        @@click.prevent="changePage(meta.currentPage - 1)">
+                        Anterior
+                    </a>
+                </li>
+
+                <li class="page-item"
+                    v-for="page in meta.totalPages"
+                    :key="page"
+                    :class="{ active: page === meta.currentPage }">
+                    <a class="page-link" href="#"
+                        @@click.prevent="changePage(page)">
+                        {{ page }}
+                    </a>
+                </li>
+
+                <li class="page-item" :class="{ disabled: !meta.nextPage }">
+                    <a class="page-link" href="#"
+                        @@click.prevent="changePage(meta.currentPage + 1)">
+                        Siguiente
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+    </div>
+
+    <div v-else class="alert alert-warning">
+        No hay propiedades cargadas
+    </div>
+</div>
+
+
+<script>
+    const app = new Vue({
+        el: "#me",
+        data: {
+            properties: [],
+            meta: null,
+            selectedProperty: null 
+        },
+        mounted() {
+            this.fetchProperties();
+        },
+        methods: {
+
+            setQueryParam(key, value) {
+                const url = new URL(window.location);
+
+                if (!value || value === 1) {
+                    url.searchParams.delete(key);
+                } else {
+                    url.searchParams.set(key, value);
+                }
+
+                window.history.pushState({}, "", url);
+                this.fetchProperties();
+            },
+
+            getCurrentPage() {
+                const url = new URL(window.location);
+                return Number(url.searchParams.get("page")) || 1;
+            },
+
+            fetchProperties() {
+                const url = new URL(window.location);
+
+                const params = {
+                    page: Number(url.searchParams.get("page")) || 1,
+                    limit: Number(url.searchParams.get("limit")) || 10,
+                    propertyType: url.searchParams.get("propertyType") || undefined,
+                    propertyCategory: url.searchParams.get("propertyCategory") || undefined,
+                    currency: url.searchParams.get("currency") || undefined,
+                };
+
+                api.getRequest('/property-admin', params)
+                    .then(response => {
+                        this.properties = response.data.data;
+                        this.meta = response.data.meta;
+                    })
+                    .catch(err => {
+                        console.error("❌ ERROR API:", err);
+                    });
+            },
+                
+            changePage(page) {
+                if (!this.meta) return;
+                if (page < 1 || page > this.meta.totalPages) return;
+
+                this.setQueryParam("page", page);
+                window.scrollTo({ top: 0, behavior: "smooth" });
+            },
+
+            changeStatus(id) {
+                api.patchRequest('/property-admin/status/' + id)
+                    .then(res => {
+                        console.log("✅ ESTADO ACTUALIZADO:", res.data);
+                        this.fetchProperties();
+                    })
+                    .catch(err => {
+                        console.error("❌ ERROR AL CAMBIAR ESTADO:", err);
+                    });
+            },
+
+            openDetails(id) {
+                this.selectedProperty = null;
+
+                api.getRequest('/property-admin/' + id)
+                    .then(res => {
+                        console.log("✅ DETALLE DESDE API:", res.data);
+                        this.selectedProperty = res.data;
+                    })
+                    .catch(err => {
+                        console.error("❌ ERROR DETALLE:", err);
+                    });
+            },
+
+            formatPrice(price) {
+                return new Intl.NumberFormat('es-PE').format(price);
+            },
+
+            translateType(type) {
+                const map = {
+                    RENT: "Alquiler",
+                    SALE: "Venta"
+                };
+                return map[type] || type;
+            },
+
+            translateCategory(category) {
+                const map = {
+                    APARTMENT: "Departamento",
+                    HOUSE: "Casa",
+                    LAND: "Terreno",
+                    COMMERCIAL: "Local Comercial"
+                };
+                return map[category] || category;
+            }
+        }
+    });
+
+    window.app = app;
+</script>

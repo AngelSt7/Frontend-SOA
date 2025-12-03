@@ -24,36 +24,18 @@
         fetchProperties() {
             const url = new URL(window.location);
             const params = Object.fromEntries(url.searchParams);
-            if (typeof api !== 'undefined') {
-                api.getRequest("/property", params)
-                    .then(res => {
-                        this.properties = res.data?.data || [];
-                        this.meta = res.data?.meta || null;
-                    })
-                    .catch(err => {
-                        console.error("Error fetching properties", err);
-                        this.properties = [];
-                        this.meta = null;
-                    });
-            } else {
-                console.error("El objeto 'api' no está definido.");
-            }
+            api.getRequest("/property", params)
+                .then(res => {
+                    this.properties = res.data?.data || [];
+                    this.meta = res.data?.meta || null;
+                })
         },
         fetchLocations() {
-            if (typeof api !== 'undefined') {
-                api.getRequest("/location/DISTRICT")
-                    .then(res => {
-                        this.locations = res.data || [];
-                        this.filteredLocations = res.data || [];
-                    })
-                    .catch(err => {
-                        console.error("Error fetching locations", err);
-                        this.locations = [];
-                        this.filteredLocations = [];
-                    });
-            } else {
-                console.error("El objeto 'api' no está definido.");
-            }
+            api.getRequest("/location/DISTRICT")
+                .then(res => {
+                    this.locations = res.data || [];
+                    this.filteredLocations = res.data || [];
+                });
         },
         filterLocations() {
             const search = this.locationSearch.toLowerCase().trim();

@@ -24,16 +24,12 @@ build_property.EnableCodeStyleSeverity =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW4uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Angel/Desktop/WebVue/Pages/Admin/Propiedades/Crear/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cUHJvcGllZGFkZXNcQ3JlYXJcSW5kZXguY3NodG1s
+[C:/Users/Angel/Desktop/WebVue/Pages/Admin/Propiedad/Crear/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cUHJvcGllZGFkXENyZWFyXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Angel/Desktop/WebVue/Pages/Admin/Propiedades/Editar/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cUHJvcGllZGFkZXNcRWRpdGFyXEluZGV4LmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Angel/Desktop/WebVue/Pages/Admin/Propiedades/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cUHJvcGllZGFkZXNcSW5kZXguY3NodG1s
+[C:/Users/Angel/Desktop/WebVue/Pages/Admin/Propiedad/Editar/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cUHJvcGllZGFkXEVkaXRhclxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Angel/Desktop/WebVue/Pages/Auntenticacion.cshtml]

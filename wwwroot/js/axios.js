@@ -1,6 +1,7 @@
 ﻿// Crear una instancia de axios
 const api = axios.create({
     baseURL: "http://localhost:4000/api",
+    withCredentials: true
 });
 
 // GET
@@ -17,6 +18,12 @@ api.postRequest = (endpoint, body) => {
 api.putRequest = (endpoint, body) => {
     return api.put(endpoint, body);
 };
+
+// PUT
+api.patchRequest = (endpoint, body) => {
+    return api.patch(endpoint, body);
+};
+
 
 // DELETE
 api.deleteRequest = (endpoint) => {
