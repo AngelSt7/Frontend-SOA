@@ -249,12 +249,12 @@
             selectedProperty: null 
         },
         mounted() {
-            this.fetchProperties();
+            this.fetchProperties(); //CARGAR P
         },
         methods: {
 
-            setQueryParam(key, value) {
-                const url = new URL(window.location);
+            setQueryParam(key, value) { //Modifica
+                const url = new URL(window.location); //No recarga
 
                 if (!value || value === 1) {
                     url.searchParams.delete(key);
@@ -263,10 +263,10 @@
                 }
 
                 window.history.pushState({}, "", url);
-                this.fetchProperties();
+                this.fetchProperties(); //Recarga con nuevo
             },
 
-            getCurrentPage() {
+            getCurrentPage() { //LEE el N pagina
                 const url = new URL(window.location);
                 return Number(url.searchParams.get("page")) || 1;
             },
@@ -274,7 +274,7 @@
             fetchProperties() {
                 const url = new URL(window.location);
 
-                const params = {
+                const params = { //Extrae
                     page: Number(url.searchParams.get("page")) || 1,
                     limit: Number(url.searchParams.get("limit")) || 10,
                     propertyType: url.searchParams.get("propertyType") || undefined,
@@ -282,29 +282,29 @@
                     currency: url.searchParams.get("currency") || undefined,
                 };
 
-                api.getRequest('/property-admin', params)
-                    .then(response => {
-                        this.properties = response.data.data;
-                        this.meta = response.data.meta;
+                api.getRequest('/property-admin', params) //EndPoint
+                    .then(response => { 
+                        this.properties = response.data.data; //actu variables
+                        this.meta = response.data.meta; //con 
                     })
                     .catch(err => {
                         console.error("❌ ERROR API:", err);
                     });
             },
                 
-            changePage(page) {
+            changePage(page) { 
                 if (!this.meta) return;
-                if (page < 1 || page > this.meta.totalPages) return;
+                if (page < 1 || page > this.meta.totalPages) return; //Controla el numero de paginas
 
-                this.setQueryParam("page", page);
-                window.scrollTo({ top: 0, behavior: "smooth" });
+                this.setQueryParam("page", page); //Aplica y recarga
+                window.scrollTo({ top: 0, behavior: "smooth" }); //Desplaza pagina
             },
 
-            changeStatus(id) {
+            changeStatus(id) { //Patch
                 api.patchRequest('/property-admin/status/' + id)
                     .then(res => {
                         console.log("✅ ESTADO ACTUALIZADO:", res.data);
-                        this.fetchProperties();
+                        this.fetchProperties(); //Aqui llama
                     })
                     .catch(err => {
                         console.error("❌ ERROR AL CAMBIAR ESTADO:", err);
@@ -314,10 +314,10 @@
             openDetails(id) {
                 this.selectedProperty = null;
 
-                api.getRequest('/property-admin/' + id)
+                api.getRequest('/property-admin/' + id) //Get
                     .then(res => {
                         console.log("✅ DETALLE DESDE API:", res.data);
-                        this.selectedProperty = res.data;
+                        this.selectedProperty = res.data; //Almacena
                     })
                     .catch(err => {
                         console.error("❌ ERROR DETALLE:", err);
